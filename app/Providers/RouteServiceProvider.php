@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::pattern('age', '[0-9]+');
 
         parent::boot();
     }
