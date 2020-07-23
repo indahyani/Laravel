@@ -25,13 +25,30 @@ Route::get('/', function () {
 	match : misal kita membuat dua route yang sama namun berbeda post atau getnya
 	any : 
 */
-Route::get('/test/{id}/{name}', function($id,$name)
-	/*?id={id}&name={name} berguna untuk menampilkan data id dan nama*/
-	{
-	//ini yang akan tampil
-	return "id = " . $id ." Nama = ". $name;
+Route::get('homeUrl', function () {
+	return "Ini Route home yang dicek menggunakan url";
 });
 
+Route::view('/menu', 'menu');
+Route::view('/biodata', 'biodata', ['nama' => 'Indahyani','id' => 123 ,'alamat' => 'Katteong']);
 
-Route::redirect('/test,'/',301)
+Route::get('/Biodata/{name?}/{age?}/{Address?}', function($name='Indahyani',$age=21,$Address='Katteong')
+	/*untuk menampilkan nama age dan address yang dikirim melalui url*/
+	{
+	//ini yang akan tampil
+	return "Nama saya adalah = " . $name ." , saya berumur  ". $age . " Tahun, Alamat  saya di " . $Address; 
+}) ;
 
+Route::get('/Biodata/ini/diakses/melalui/nama', function()
+	/*untuk menampilkan nama age dan address yang dikirim melalui url*/
+	{
+	//ini yang akan tampil
+	return "Nama = indahyani " ; 
+})->name('Bio');
+
+Route::middleware('throttle:5,1')->group(function () {
+	Route::get('users/{id}', function($id){
+		return " Nama user ke-"  .$id;
+	});
+
+});
